@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload Image</title>
+  </head>
+  <body>
+
+    {% if msg %}
+    <h1>{{ msg }}</h1>
+    {% endif %}
+    
+    <h1>Upload new File</h1>
+    
+    <form method=post enctype=multipart/form-data>
+      <p><input type=file name=file>
+         <input type=submit value=Upload>
+    </form>
+
+    <h1>Result:</h1>
+    {% if img_src %}
+      <img src="{{ img_src }}">
+    {% endif %}
+    
+    {% if extracted_text %}
+      <p> The extracted text from the image above is:<br>
+        Full name : <b> {{ extracted_text.first_name }}  {{ extracted_text.last_name }}</b><br>
+        Birth day : <b> {{ extracted_text.bd }}</b><br>
+        City : <b> {{ extracted_text.ville }}</b><br>
+        CIN : <b> {{ extracted_text.id_num }} </b><br>
+        Validity card : <b> {{ extracted_text.validity }}</b><br>
+      </p>
+    
+    {% else %}
+      The extracted text will be displayed here
+    {% endif %}
+  </body>
+</html>
+    
