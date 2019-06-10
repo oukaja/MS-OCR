@@ -2,7 +2,9 @@ import os
 
 from flask import Flask, render_template, request, jsonify
 
-from ocr_core import ocr_id_card
+from utils.ocr_card import ocr_id_card
+from utils.ocr_pay import ocr_pay
+from utils.ocr_paie import ocr_paie
 
 
 UPLOAD_FOLDER = '/static/uploads/'
@@ -25,25 +27,39 @@ def home_page():
 def upload_page():
     if request.method == 'POST':
         # check if the post request has the file part
-        if 'file' not in request.files:
+        if 'cin_front' not in request.files or 'cin_back' not in request.files or 'pay' not in request.files or 'paie' not in request.files:
             return render_template('upload.html', msg='No file selected')
-        file = request.files['file']
+        cin_front = request.files['cin_front']
+        cin_back = request.files['cin_back']
+        pay_sheet = request.files['pay']
+        paie_sheet = request.files['paie']
+
         # if user does not select file, browser also
         # submit a empty part without filename
-        if file.filename == '':
+        if cin_front.filename == '' or cin_back.filename == '' or pay_sheet.filename == '' or paie_sheet.filename == '':
             return render_template('upload.html', msg='No file selected')
 
-        if file and allowed_file(file.filename):
-            file.save(os.path.join(os.getcwd() + UPLOAD_FOLDER, file.filename))
+        if cin_front and allowed_file(cin_front.filename) and cin_back and allowed_file(cin_back.filename) and pay_sheet and allowed_file(pay_sheet.filename) and  paie_sheet and allowed_file(paie_sheet.filename):
+            cin_front.save(os.path.join(os.getcwd() + UPLOAD_FOLDER, cin_front.filename))
+            cin_back.save(os.path.join(os.getcwd() + UPLOAD_FOLDER, cin_back.filename))
+            pay_sheet.save(os.path.join(os.getcwd() + UPLOAD_FOLDER, pay_sheet.filename))
+            paie_sheet.save(os.path.join(os.getcwd() + UPLOAD_FOLDER, paie_sheet.filename))
 
             # call the OCR function on it
-            extracted_text = ocr_id_card(os.getcwd() + UPLOAD_FOLDER, file)
+            id_card = ocr_id_card(os.getcwd() + UPLOAD_FOLDER, cin_front, cin_back)
+            pay = ocr_pay(os.getcwd() + UPLOAD_FOLDER, pay_sheet)
+            paie = ocr_paie(os.getcwd() + UPLOAD_FOLDER, paie_sheet)
 
             # extract the text and display it
             return render_template('upload.html',
                                    msg='Successfully processed',
-                                   extracted_text=extracted_text,
-                                   img_src=UPLOAD_FOLDER + file.filename)
+                                   id_card=id_card,
+                                   pay=pay,
+                                   paie = paie,
+                                   cin_front_img=UPLOAD_FOLDER + cin_front.filename,
+                                   cin_back_img=UPLOAD_FOLDER + cin_back.filename,
+                                   pay_img=UPLOAD_FOLDER + pay_sheet.filename,
+                                   paie_img=UPLOAD_FOLDER + paie_sheet.filename)
     elif request.method == 'GET':
         return render_template('upload.html')
 

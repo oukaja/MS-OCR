@@ -1,38 +1,357 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Upload Image</title>
-  </head>
-  <body>
 
-    {% if msg %}
-    <h1>{{ msg }}</h1>
-    {% endif %}
-    
-    <h1>Upload new File</h1>
-    
-    <form method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
+<head>
+  <title>Upload Image</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <h1>Result:</h1>
-    {% if img_src %}
-      <img src="{{ img_src }}">
-    {% endif %}
-    
-    {% if extracted_text %}
-      <p> The extracted text from the image above is:<br>
-        Full name : <b> {{ extracted_text.first_name }}  {{ extracted_text.last_name }}</b><br>
-        Birth day : <b> {{ extracted_text.bd }}</b><br>
-        City : <b> {{ extracted_text.ville }}</b><br>
-        CIN : <b> {{ extracted_text.id_num }} </b><br>
-        Validity card : <b> {{ extracted_text.validity }}</b><br>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css"
+    crossorigin="anonymous">
+
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .container {
+      max-width: 960px;
+    }
+
+    .lh-condensed {
+      line-height: 1.25;
+    }
+  </style>
+</head>
+
+<body class="bg-light">
+
+  <div class="container">
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4"
+        src="https://www.google.co.ma/imgres?imgurl=http%3A%2F%2Fphotos.prnewswire.com%2Fprn%2F20090416%2FIBMLOGO&imgrefurl=https%3A%2F%2Fwww.prnewswire.com%2Fnews-releases%2Fbank-of-china-in-the-uk-works-with-ibm-to-become-a-smarter-greener-bank-114573679.html&docid=7BZ86LAuLkwPnM&tbnid=nhtPB4HfkwbCxM%3A&vet=10ahUKEwjGr8n0msPiAhUFqXEKHdzADdMQMwhHKAgwCA..i&w=500&h=261&client=opera&bih=970&biw=1880&q=ibm%20smart%20bank&ved=0ahUKEwjGr8n0msPiAhUFqXEKHdzADdMQMwhHKAgwCA&iact=mrc&uact=8"
+        alt="" width="72" height="72">
+      <h2>IBM Smart Bank</h2>
+      <p class="lead">
+        <h1>Upload new File required for your demand</h1>.
       </p>
-    
-    {% else %}
-      The extracted text will be displayed here
-    {% endif %}
-  </body>
+    </div>
+
+
+    <div class="row h-100 justify-content-center align-items-center">
+      <form class="needs-validation" method=post enctype=multipart/form-data> <div class="input-group mb-3 center">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+        </div>
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="inputGroupFile01" name=cin_front required
+            aria-describedby="inputGroupFileAddon01">
+          <label class="custom-file-label" for="inputGroupFile01"> CIN Front</label>
+        </div>
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>
+      </div>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="inputGroupFile02" name=cin_back required
+          aria-describedby="inputGroupFileAddon02">
+        <label class="custom-file-label" for="inputGroupFile02"> CIN Back</label>
+      </div>
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroupFileAddon03">Upload</span>
+      </div>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="inputGroupFile03" name=pay required
+          aria-describedby="inputGroupFileAddon03">
+        <label class="custom-file-label" for="inputGroupFile03"> PAYMENT SHEET</label>
+      </div>
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroupFileAddon04">Upload</span>
+      </div>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="inputGroupFile04" name=paie required
+          aria-describedby="inputGroupFileAddon04">
+        <label class="custom-file-label" for="inputGroupFile04">PAYMENT SHEET 2</label>
+      </div>
+    </div>
+
+
+    <input class="btn btn-primary btn-lg btn-block" type=submit value=Upload>
+    </form>
+  </div>
+  <hr class="mb-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="row">
+      {% if cin_front_img %}
+      <a href="{{ cin_front_img }}" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-3"><img src="{{ cin_front_img }}" class="img-fluid"></a>
+      {% endif %}
+
+      {% if cin_back_img %}
+      <a href="{{  cin_back_img }}" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-3"><img src="{{ cin_back_img }}" class="img-fluid"></a>
+      {% endif %}
+
+      {% if pay_img %}
+      <a href="{{  pay_img }}" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-3"><img src="{{ pay_img }}" class="img-fluid" ></a>
+      {% endif %}
+
+      {% if paie_img %}
+      <a href="{{  paie_img }}" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-3"><img src="{{ paie_img }}" class="img-fluid"></a>
+      {% endif %}
+        </div>
+      </div>
+  </div>
+  <hr class="mb-4">
+  {% if msg %}
+  <h1 class="text-center">{{ msg }}</h1>
+  {% endif %}
+
+  {% if id_card %}
+  <div class="row h-100 justify-content-center align-items-center">
+    <from method=post enctype=multipart/form-data> <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="firstName">First name</label>
+        <input type="text" class="form-control" id="firstName" name="firstName" placeholder=""
+          value="{{ id_card.first_name }}" required>
+        <div class="invalid-feedback">
+          Valid first name is required.
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="lastName">Last name</label>
+        <input type="text" class="form-control" id="lastName" name="lastName" placeholder=""
+          value="{{ id_card.last_name }}" required>
+        <div class="invalid-feedback">
+          Valid last name is required.
+        </div>
+      </div>
+  </div>
+  <div class="mb-3">
+    <label for="bd">Birth day</label>
+    <input type="text" class="form-control" id="bd" placeholder="2019/12/11" value="{{ id_card.bd }}" required>
+    <div class="invalid-feedback">
+      Please enter your Birth day.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="city">City</label>
+    <input type="text" class="form-control" id="city" placeholder="Marrakech" value="{{ id_card.ville }}" required>
+    <div class="invalid-feedback">
+      Please enter your city.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="cin">CIN</label>
+    <input type="text" class="form-control" id="cin" placeholder="PB40040" value="{{ id_card.id_num }}" required>
+    <div class="invalid-feedback">
+      Please enter your CIN.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="validity">Validity Date</label>
+    <input type="text" class="form-control" id="validity" placeholder="2035/12/01" value="{{ id_card.validity }}"
+      required>
+    <div class="invalid-feedback">
+      Please enter your Validity Date.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="father_name">Father name</label>
+    <input type="text" class="form-control" id="father_name" placeholder="Adam BEN Ibrahim"
+      value="{{ id_card.father_name }}" required>
+    <div class="invalid-feedback">
+      Please enter your Father name.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="mother_name">Mother name</label>
+    <input type="text" class="form-control" id="mother_name" placeholder="Amina BENT Ahmed"
+      value="{{ id_card.mother_name }}" required>
+    <div class="invalid-feedback">
+      Please enter your Mother name.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="adr">Address</label>
+    <input type="text" class="form-control" id="adr" placeholder="Address" value="{{ id_card.adr }}" required>
+    <div class="invalid-feedback">
+      Please enter your Address.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="gender">Gender</label>
+    <input type="text" class="form-control" id="gender" placeholder="Gender" value="{{ id_card.gender }}" required>
+    <div class="invalid-feedback">
+      Please enter your Gender.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="cs">Civil status number</label>
+    <input type="text" class="form-control" id="cs" placeholder="Civil status number" value="{{ id_card.cs }}" required>
+    <div class="invalid-feedback">
+      Please enter your Civil status number.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="ste_name">Company name</label>
+    <input type="text" class="form-control" id="ste_name" placeholder="Company name" value="{{ pay.ste_name }}"
+      required>
+    <div class="invalid-feedback">
+      Please enter your Company name.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="sba">Gross income</label>
+    <input type="text" class="form-control" id="sba" placeholder="Gross income" value="{{ pay.sba }}" required>
+    <div class="invalid-feedback">
+      Please enter your Gross income.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="mutuelle_cnss">Mutual (CNSS)</label>
+    <input type="text" class="form-control" id="mutuelle_cnss" placeholder="Mutual (CNSS)"
+      value="{{ pay.mutuelle_cnss }}" required>
+    <div class="invalid-feedback">
+      Please enter your Mutual (CNSS).
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="revenue_net">Net income</label>
+    <input type="text" class="form-control" id="revenue_net" placeholder="Net income" value="{{ pay.revenue_net }}"
+      required>
+    <div class="invalid-feedback">
+      Please enter your Net income.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="num_cimr">CIMR</label>
+    <input type="text" class="form-control" id="num_cimr" placeholder="CIMR" value="{{ paie.num_cimr }}" required>
+    <div class="invalid-feedback">
+      Please enter your CIMR.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="matricule">CNSS</label>
+    <input type="text" class="form-control" id="matricule" placeholder="CNSS" value="{{ paie.matricule }}" required>
+    <div class="invalid-feedback">
+      Please enter your CNSS.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="date_debut">Start date</label>
+    <input type="text" class="form-control" id="date_debut" placeholder="Start date" value="{{ paie.date_debut }}"
+      required>
+    <div class="invalid-feedback">
+      Please enter your Start date.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="sit_fam">Family situation</label>
+    <input type="text" class="form-control" id="sit_fam" placeholder="Family situation" value="{{ paie.sit_fam }}"
+      required>
+    <div class="invalid-feedback">
+      Please enter your Family situation.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="fonction">Function</label>
+    <input type="text" class="form-control" id="fonction" placeholder="Function" value="{{ paie.fonction }}" required>
+    <div class="invalid-feedback">
+      Please enter your Function.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="salaire_base">Base salary</label>
+    <input type="text" class="form-control" id="salaire_base" placeholder="Base salary" value="{{ paie.salaire_base }}"
+      required>
+    <div class="invalid-feedback">
+      Please enter your Base salary.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="mois_paie">Month's pay</label>
+    <input type="text" class="form-control" id="mois_paie" placeholder="Month's pay" value="{{ paie.mois_paie }}"
+      required>
+    <div class="invalid-feedback">
+      Please enter your Month's pay.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="interest_rates">Interest rates</label>
+    <input type="text" class="form-control" id="interest_rates" placeholder="Interest rates (7% to 13%)" required>
+    <div class="invalid-feedback">
+      Please enter your Interest rates.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="desired_amount">Desired amount</label>
+    <input type="text" class="form-control" id="desired_amount" placeholder="Desired amount" required>
+    <div class="invalid-feedback">
+      Please enter your Desired amount.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="monthly_payment">Monthly payment</label>
+    <input type="text" class="form-control" id="monthly_payment" placeholder="Monthly payment" required>
+    <div class="invalid-feedback">
+      Please enter your Monthly payment.
+    </div>
+  </div>
+  <hr class="mb-4">
+  <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+  </from>
+  </div>
+  {% endif %}
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2019 IBM Applications & Technologies</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+  </div>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"
+    crossorigin="anonymous"></script>
+  <script>
+    $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+      event.preventDefault();
+      $(this).ekkoLightbox();
+    });
+  </script>
+</body>
+
 </html>
-    
