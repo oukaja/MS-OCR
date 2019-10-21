@@ -3,6 +3,6 @@ numpy==1.15.4
 matplotlib==3.0.3
 pytesseract==0.2.6
 opencv_python==4.1.0.25
-Flask==0.12.2
+Flask==1.0
 Image==1.5.27
 Pillow==6.0.0
